@@ -56,9 +56,9 @@ int main(){
 				  peek_item!='('  && 	
 				  operator_precedence(peek_item)>operator_precedence(infix_exp[i])){
 			  	//pop item if the a)stack is not empty and b)peek is not open parenthesis and c) peek item's precedence is higher
-				pop_item = pop(stack); 
+				pop_item = pop(stack);       //pop if above condition is true and append to output string
 				postfix_exp[k++] = pop_item; //append operators to the output string
-				peek_item = peek(stack);	
+				peek_item = peek(stack);	 //perform peek to check for '('
 			}
 			//push the infix operator into stack
 			push(stack,infix_exp[i]);
@@ -67,10 +67,10 @@ int main(){
 		//step5: if token is ')' closing parentheisis,pop all the operators to output string  
 		//until ‘(’ is found & discard both parenthesis
 		else if(infix_exp[i]==')'){
-			pop_item = pop(stack);
+			pop_item = pop(stack);          //pop until '(' is found
 			while(pop_item!='('){
-				postfix_exp[k++]=pop_item; //append operators to the output string
-				pop_item = pop(stack); //get the next item in stack
+				postfix_exp[k++]=pop_item;  //append operators to the output string
+				pop_item = pop(stack);      //pop until '(' is found
 			}	
 		}
 		//step3: if token is operand then append to output string
@@ -100,7 +100,7 @@ int operator_precedence(char oper){
 		case '%': return 2;
 		case '+':
 		case '-': return 1;
-		default : printf("\ninvalid operator(%c)",oper);return -1;
+		default : printf("\nInvalid Operator(%c)",oper);return -1;
 	}
 }
 
@@ -139,10 +139,9 @@ void push(int stack[],int value){
 void traverse(int stack[]){
 	printf("\nStack elements[");
 	for(int i=0;i<=top;i++){
-		printf("%c ",stack[i]);
+		printf("%c ",stack[i]); //print char since these are operators and contain ascii values
 	}
 	printf("]");
-	
 }
 
 
