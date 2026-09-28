@@ -48,4 +48,5 @@ int main(){
 	}
 	printf("null]");
 	
+	return 0;
 }
