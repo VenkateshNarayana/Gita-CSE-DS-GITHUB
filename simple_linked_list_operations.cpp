@@ -9,14 +9,18 @@
 
 struct node{
 	int     		data; //to store information
-	struct node* 	next; //to store the address of another node
+	struct node* 	next; //to store the address of next node
 };
+
 struct node* head=NULL; //track the head of the linked list
 struct node* tail=NULL; //track the tail of the linked list
 
-//list traversal
+//list traversal operation
 void traverse_list();
+
+//creation of node using malloc (DMA)
 struct node* create_node(int); //param1 = input data to store the information part,pointer will be always NULL
+
 //insert operations - at head, at tail, at position
 void insert_at_head(int); // insert input data before head
 void insert_at_tail(int); // insert input data after tail
@@ -32,8 +36,6 @@ int main(){
 	traverse_list();
 	insert_at_tail(50);
 	traverse_list();
-	
-	
 	return 0;
 }
 struct node* create_node(int input_data){
@@ -72,8 +74,8 @@ void insert_at_tail(int input_data){
 		//step1 : point current tail's next to new node
 		tail->next = new_node;
 		//step2 : move the tail to new node
-//		tail = new_node; 
-		tail = tail->next;// This is LINKAN's code
+		tail = new_node; 
+		//tail = tail->next;// This is LINKAN's code
 	}
 }
 void traverse_list(){//list traversal
