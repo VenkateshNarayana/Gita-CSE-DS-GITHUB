@@ -15,15 +15,16 @@ struct node{
 struct node* head=NULL; //track the head of the linked list
 struct node* tail=NULL; //track the tail of the linked list
 
-//list traversal operation
-void traverse_list();
-
 //creation of node using malloc (DMA)
 struct node* create_node(int); //param1 = input data to store the information part,pointer will be always NULL
 
 //insert operations - at head, at tail, at position
 void insert_at_head(int); // insert input data before head
 void insert_at_tail(int); // insert input data after tail
+
+//list traversal operation
+void traverse_list();
+void free_list();
 
 int main(){
 	//insert - opearations
@@ -36,6 +37,9 @@ int main(){
 	traverse_list();
 	insert_at_tail(50);
 	traverse_list();
+	
+	//free all the nodes
+	free_list();
 	return 0;
 }
 struct node* create_node(int input_data){
@@ -86,4 +90,14 @@ void traverse_list(){//list traversal
 		temp = temp->next; //move to next node until null
 	}
 	printf("null]");
+}
+void free_list(){
+	struct node* temp; //store the first node(head)
+	//traverse from head to NULL and free all the nodes
+	while(head!=NULL){
+		temp = head;
+		head = head->next; //move to next node until null
+		free(temp);
+	}
+	printf("\nfreed all the nodes successfully!!");
 }
