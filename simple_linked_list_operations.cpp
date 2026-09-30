@@ -25,7 +25,7 @@ void insert_at_position(int,int); //insert input data at position
 //delete opertions - at head, at tail, at position
 void delete_at_head(); // delete current head
 void delete_at_tail(); // delete current tail
-
+void delete_at_position(int); //delete the node provided
 
 //list traversal operation
 void traverse_list();
@@ -51,7 +51,15 @@ int main(){
 	//insert at position
 	insert_at_position(30,15);
 	traverse_list();
-		
+	
+	delete_at_position(30);
+	traverse_list();
+	
+	delete_at_position(10);
+	traverse_list();
+	
+	delete_at_position(15);
+	traverse_list();
 	//free all the nodes
 	free_list();
 	return 0;
@@ -101,6 +109,8 @@ void insert_at_tail(int input_data){
 void insert_at_position(int node_value,int input_data){
 	if(head==NULL){
 		printf("\nlist is empty..cannot find(%d) node",node_value);
+	}else if(head->data==node_value){
+		insert_at_head(input_data);
 	}else{
 		struct node* new_node = create_node(input_data);
 		if(new_node==NULL) return; //because memory allocation failed 
@@ -146,6 +156,33 @@ void delete_at_tail(){
 		tail = temp;      //make the temp as the new tail
 		
 		printf("\nDeleted %d node from tail successfully!!!",deleted_node); 
+	}
+}
+
+void delete_at_position(int node_value){
+	if(tail==NULL){
+		printf("\nList is empty cannot perform delete operation");
+	}else if(head->data==node_value){
+		delete_at_head();
+	}else{
+		//struct node* temp_tail = tail; //store the current tail
+		struct node* temp = head;
+		//step1 : traverse to 1 node before delete node
+		while(temp->next!=tail){
+			if(temp->next->data==node_value) break;
+			temp = temp->next; //move to next ndoe
+		}
+		//you are at 1 node before delete node
+		struct node* delete_node=temp->next; //store the delete_node 
+		int delete_node_data = delete_node->data;
+		
+		//step 2:  set temp's next to delete node's next
+		temp->next = delete_node->next; //point temp's next to delete nodes next node
+		
+		//step3 : free the delete node
+		free(delete_node);              //free delete node
+		
+		printf("\nDeleted position(%d) successfully!!!",node_value); 
 	}
 }
 void traverse_list(){//list traversal
