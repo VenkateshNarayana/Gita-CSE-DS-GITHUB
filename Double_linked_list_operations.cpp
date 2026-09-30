@@ -1,8 +1,9 @@
-/* Linked List - It is a linear data structure where nodes are connected to each other using pointers. These node are scattered in 
+/* Double Linked List - It is a linear data structure where nodes are connected to each other using pointers. These node are scattered in 
                  memory unlike arrays where they are stored contigously.
                  A node consists 2 parts,
                  1. data    - This stores the information (primitive data types-int,float,double,char, arrays, user defined types-struct & union)
-                 2. pointer - This stores the address of anothere node. 
+                 2-a. pointer - This stores the address of next node.
+				 2-b. pointer - This stores the address of previous node. 
 */
 #include<stdio.h>
 #include<stdlib.h>
@@ -10,6 +11,7 @@
 struct node{
 	int     		data; //to store information
 	struct node* 	next; //to store the address of next node
+	struct node* 	prev; //to store the address of previous node
 };
 
 struct node* head=NULL; //track the head of the linked list
@@ -29,6 +31,7 @@ void delete_at_tail(); // delete current tail
 
 //list traversal operation
 void traverse_list();
+void traverse_tail();
 void free_list();
 
 int main(){
@@ -42,15 +45,16 @@ int main(){
 	traverse_list();
 	insert_at_tail(50);
 	traverse_list();
-	//delete operations
-	delete_at_head();
-	traverse_list();
-	delete_at_tail();
-	traverse_list();
 	
-	//insert at position
-	insert_at_position(30,15);
-	traverse_list();
+//	//delete operations
+//	delete_at_head();
+//	traverse_list();
+//	delete_at_tail();
+//	traverse_list();
+//	
+//	//insert at position
+//	insert_at_position(30,15);
+//	traverse_list();
 		
 	//free all the nodes
 	free_list();
@@ -64,7 +68,8 @@ struct node* create_node(int input_data){
 	}
 	//store input data in information part & store NULL in pointer
 	new_node->data = input_data;
-	new_node->next = NULL;
+	new_node->next = NULL; //new node next is NULL as its new node
+	new_node->prev = NULL; //new node prev is also NULL as its new node
 	return new_node;
 }
 void insert_at_head(int input_data){
@@ -77,6 +82,8 @@ void insert_at_head(int input_data){
 	}else{
 		//step1 : point new node's next to current head
 		new_node->next = head;
+		//step 2:point current head to new node
+		head->prev = new_node;
 		//step2 : move the head to new node
 		head = new_node; 
 	}
@@ -92,9 +99,12 @@ void insert_at_tail(int input_data){
 	}else{
 		//step1 : point current tail's next to new node
 		tail->next = new_node;
-		//step2 : move the tail to new node
+		
+		//step2 : point the new node's prev to current tail
+		new_node->prev = tail; //current tail
+		
+		//step3 : move the tail to new node
 		tail = new_node; 
-		//tail = tail->next;// This is LINKAN's code
 	}
 	printf("\nInserted node(%d) at tail succesfully!!",input_data);
 }
@@ -150,12 +160,22 @@ void delete_at_tail(){
 }
 void traverse_list(){//list traversal
 	struct node* temp = head; //store the first node (head) node's address
-	printf("\nList [");
+	printf("\nList (head->tail)[");
 	while(temp!=NULL){
 		printf("%d->",temp->data);
 		temp = temp->next; //move to next node until null
 	}
 	printf("null]");
+	traverse_tail();
+}
+void traverse_tail(){
+	struct node* temp = tail; //store the last node (tail)
+	printf("\nList(tail->head) [");
+	while(temp!=NULL){
+		printf("%d->",temp->data);
+		temp = temp->prev; //move to previous node until null
+	}
+	printf("null]\n");
 }
 void free_list(){
 	struct node* temp; //store the first node(head)
