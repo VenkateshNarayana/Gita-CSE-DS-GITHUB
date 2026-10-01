@@ -24,6 +24,7 @@ struct node* create_node(int); //param1 = input data to store the information pa
 void insert_at_head(int); // insert input data before head
 void insert_at_tail(int); // insert input data after tail
 void insert_at_position(int,int); //insert input data at position 
+
 //delete opertions - at head, at tail, at position
 void delete_at_head(); // delete current head
 void delete_at_tail(); // delete current tail
@@ -46,11 +47,11 @@ int main(){
 	insert_at_tail(50);
 	traverse_list();
 	
-//	//delete operations
-//	delete_at_head();
-//	traverse_list();
-//	delete_at_tail();
-//	traverse_list();
+	//delete operations
+	delete_at_head();
+	traverse_list();
+	delete_at_tail();
+	traverse_list();
 //	
 //	//insert at position
 //	insert_at_position(30,15);
@@ -133,10 +134,11 @@ void delete_at_head(){
 		printf("\nList is empty cannot perform delete operation");
 	}else{
 		struct node* temp = head; //store the current head
-		int deleted_node   = head->data;
-		head = head->next;        //move head to next node
+		int delete_node_data   = head->data;
+		head         = head->next;        //move head to next node
+		head->prev   = NULL;      //head's prev is always NULL in double linked list
 		free(temp);               //free the temp 
-		printf("\nDeleted %d node from head successfully!!!",deleted_node); 
+		printf("\nDeleted %d node from head successfully!!!",delete_node_data); 
 	}
 }
 void delete_at_tail(){
@@ -144,18 +146,13 @@ void delete_at_tail(){
 		printf("\nList is empty cannot perform delete operation");
 	}else{
 		//struct node* temp_tail = tail; //store the current tail
-		struct node* temp = head;
-		//traverse to (n-1)th node
-		while(temp->next!=tail){
-			temp = temp->next; //move to next ndoe
-		}
-		//you are at the (n-1)th node
-		int deleted_node = tail->data;
-		temp->next = NULL; //because this is going to be my new tail
-		free(tail);       //free the old tail
-		tail = temp;      //make the temp as the new tail
+		int delete_node_data = tail->data;
+		struct node* temp = tail;   //store the old tail in temp
+		tail         = tail->prev;  //move tail to previous node
+		tail->next   = NULL;        //because this is going to be my new tail and its next is always NULL
+		free(temp);                 //free the old tail
 		
-		printf("\nDeleted %d node from tail successfully!!!",deleted_node); 
+		printf("\nDeleted %d node from tail successfully!!!",delete_node_data); 
 	}
 }
 void traverse_list(){//list traversal
