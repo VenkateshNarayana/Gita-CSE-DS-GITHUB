@@ -18,10 +18,10 @@ struct node* tail=NULL; //track the tail of the linked list
 //creation of node using malloc (DMA)
 struct node* create_node(int); //param1 = input data to store the information part,pointer will be always NULL
 
-//insert operations - at head, at tail, at position
+//insert operations - at head
 void push(int); // insert input data before head
 
-//delete opertions - at head, at tail, at position
+//delete opertions - at head
 void pop();     // delete current head
 void peek();    // show the top
 int is_empty(); // return 1 if list is empty else 0
@@ -35,8 +35,7 @@ int main(){
 	traverse_list();
 	push(20);
 	traverse_list();
-	
-	
+
 	//perform pop operations
 	pop();
 	
